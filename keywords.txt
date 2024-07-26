@@ -1,0 +1,40 @@
+#######################################
+# Syntax Coloring Map For RotEnc
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+RotEnc	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+attachCallback_Rotated	KEYWORD2
+attachCallback_RotatedInCW	KEYWORD2
+attachCallback_RotatedInCCW	KEYWORD2
+
+isRotated	KEYWORD2
+isRotatedInCW	KEYWORD2
+isRotatedInCCW	KEYWORD2
+
+setTimeParalyze	KEYWORD2
+
+getRotatedDirection	KEYWORD2
+
+poll	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+AUTO	LITERAL1
+PAUSE	LITERAL1
+CW	LITERAL1
+CCW	LITERAL1
