@@ -23,9 +23,6 @@ class RotEnc {
 
     const uint8_t mode; // mode of input [INPUT, INPUT_PULLUP] for A and B
 
-    const uint8_t value; // [LOW, HIGH] of A,B for on-state, if (value != LOW && value != HIGH) then decided from the mode.
-
-    uint8_t vol_off, vol_on; // [LOW, HIGH] for off and on-state
     uint8_t vol_prev, vol_curr; // [LOW, HIGH] of pin_A in prevoius and current polling
     uint8_t vol_B; // [LOW, HIGH] of pin_B at a just timing of chaning pin_A voltage 
 
@@ -48,7 +45,7 @@ class RotEnc {
 
   public:
     // constructor
-    RotEnc(uint8_t pA, uint8_t pB, uint8_t dir = CW, uint8_t m = INPUT_PULLUP, uint8_t v = AUTO, uint32_t t_p = 2);
+    RotEnc(uint8_t pA, uint8_t pB, uint8_t dir = CW, uint8_t m = INPUT_PULLUP, uint32_t t_p = 2);
 
     void attachCallback_Rotated(void(* func)(uint8_t));
     void attachCallback_RotatedInCCW(void(* func)(void));

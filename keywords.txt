@@ -34,7 +34,6 @@ poll	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-AUTO	LITERAL1
 PAUSE	LITERAL1
 CW	LITERAL1
 CCW	LITERAL1
