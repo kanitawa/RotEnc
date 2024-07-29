@@ -83,14 +83,11 @@ void RotEnc::poll() {
       if (vol_prev != vol_curr) { // current value of pin_A is different from before paralyzing
         if (vol_curr == vol_on) { // detect "A : off -> on"
           is_rotated = true;
-          if (vol_B == vol_off) { // rotated in CW direction
-            rotated_direction = CW;
-            if (is_rotated_attached) callback_rotated(rotated_direction);
-            if (is_rotated_CW_attached) callback_rotated_CW();
-          } else { // rotated in CCW direction
-            rotated_direction = CCW;
-            if (is_rotated_attached) callback_rotated(rotated_direction);
-            if (is_rotated_CCW_attached) callback_rotated_CCW();
+          rotated_direction = (vol_B == vol_off)?direction:!direction;
+          if (is_rotated_attached) callback_rotated(rotated_direction);
+          switch (rotated_direction) {
+            case CCW: if (is_rotated_CCW_attached) callback_rotated_CCW(); break;
+            case CW : if (is_rotated_CW_attached)  callback_rotated_CW();  break;
           }
         }
         vol_prev = vol_curr;
