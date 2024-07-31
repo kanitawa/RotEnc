@@ -18,6 +18,9 @@ RotEnc::RotEnc(uint8_t pA, uint8_t pB, uint8_t dir, uint8_t m, uint32_t t_p)
   is_rotated_CCW_attached = false;
   is_rotated_CW_attached = false;
 
+  // exiternal interrupt for A-phase is not attached
+  is_ext_interrupt_attached = false;
+
   // all one-time variables are not detected.
   is_rotated = false;
   rotated_direction = PAUSE; 
@@ -47,6 +50,22 @@ void RotEnc::attachCallback_RotatedInCW(void(* func)(void)) {
   is_rotated_CW_attached = true;
 }
 
+// attach & detach external interrupt for A-phase
+void RotEnc::attachExtInterrupt(void(* func)(void)) {
+  if (digitalPinToInterrupt(pin_A) < 0) return; // ignore if pin_A is not for interrupts
+  detachExiInterrupt();
+  attachInterrupt(digitalPinToInterrupt(pin_A), func, FALLING);
+  is_ext_interrupt_attached = true;
+}
+
+void RotEnc::detachExiInterrupt() {
+  if (digitalPinToInterrupt(pin_A) < 0) return; // ignore if pin_A is not for interrupts
+  if (is_ext_interrupt_attached) { // already attached
+    detachInterrupt(digitalPinToInterrupt(pin_A)); // detach
+    is_ext_interrupt_attached = false;
+  }
+}
+
 // setter for time constants
 void RotEnc::setTimeParalyze(uint32_t t) {time_paralyze = t;}
 
@@ -68,8 +87,8 @@ void RotEnc::poll() {
   if (isParalyzing) { // in paralyzing
     if (millis() - ms_paralyzed > time_paralyze) { // time over paralyzing
       vol_curr = digitalRead(pin_A);
-      if (vol_prev != vol_curr) { // current value of pin_A is different from before paralyzing
-        if (vol_curr == LOW) { // detect "A : HIGH -> LOW"
+      if (is_ext_interrupt_attached || vol_prev != vol_curr) { // current value of pin_A is different from before paralyzing
+        if (vol_curr == LOW) { // detect "A : HIGH -> LOW", not glitch
           is_rotated = true;
           rotated_direction = (vol_B == HIGH)?direction:!direction;
           if (is_rotated_attached) callback_rotated(rotated_direction);
@@ -82,11 +101,17 @@ void RotEnc::poll() {
       }
       isParalyzing = false;
     }
-  } else { // not in paralyzing
+  } else if (!is_ext_interrupt_attached) { // not in paralyzing & not use external interrupt
     if (vol_prev != digitalRead(pin_A)) { // pin_A voltage change from previous polling
       isParalyzing = true; // move into paralyze
       ms_paralyzed = millis(); // update starting time of paralyzing
       vol_B = digitalRead(pin_B); // restore voltage on pin_B
     }
   }
+}
+
+void RotEnc::detect() {
+  isParalyzing = true; // move into paralyze
+  ms_paralyzed = millis(); // update starting time of paralyzing
+  vol_B = digitalRead(pin_B); // restore voltage on pin_B
 }

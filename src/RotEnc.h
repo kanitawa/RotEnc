@@ -24,12 +24,12 @@ class RotEnc {
     const uint8_t mode; // mode of input [INPUT, INPUT_PULLUP] for A and B
 
     uint8_t vol_prev, vol_curr; // [LOW, HIGH] of pin_A in prevoius and current polling
-    uint8_t vol_B; // [LOW, HIGH] of pin_B at a just timing of chaning pin_A voltage 
+    volatile uint8_t vol_B; // [LOW, HIGH] of pin_B at a just timing of chaning pin_A voltage 
 
     uint32_t time_paralyze; // msec. of paralyzing for debouncing
 
-    boolean isParalyzing; // true in paralyzing for debouncing
-    unsigned long ms_paralyzed; // starting time of paralyzing
+    volatile boolean isParalyzing; // true in paralyzing for debouncing
+    volatile unsigned long ms_paralyzed; // starting time of paralyzing
 
     boolean is_rotated_attached; // true if callback_Rotated is attached
     void(* callback_rotated)(uint8_t); // callback function for rotated (*any direction)
@@ -39,6 +39,8 @@ class RotEnc {
     
     boolean is_rotated_CW_attached; // true if callback_RotatedInCW is attached
     void(* callback_rotated_CW)(void); // callback function for rotated in CW direction
+
+    boolean is_ext_interrupt_attached; // true if external interrupt for A-phase is attached
 
     boolean is_rotated; // one-time variable for detect rotated
     uint8_t rotated_direction; // one-time variable for rotated direction
@@ -50,6 +52,9 @@ class RotEnc {
     void attachCallback_Rotated(void(* func)(uint8_t));
     void attachCallback_RotatedInCCW(void(* func)(void));
     void attachCallback_RotatedInCW(void(* func)(void));
+
+    void attachExtInterrupt(void(* func)(void));
+    void detachExiInterrupt(void);
     
     void setTimeParalyze(uint32_t);
 
@@ -60,6 +65,8 @@ class RotEnc {
     boolean isRotatedInCW(void);
     
     void poll(void);
+
+    void detect(void);
 };
 
 #endif
