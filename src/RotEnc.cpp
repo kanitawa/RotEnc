@@ -111,7 +111,9 @@ void RotEnc::poll() {
 }
 
 void RotEnc::detect() {
-  isParalyzing = true; // move into paralyze
-  ms_paralyzed = millis(); // update starting time of paralyzing
-  vol_B = digitalRead(pin_B); // restore voltage on pin_B
+  if (!isParalyzing) {
+    isParalyzing = true; // move into paralyze
+    ms_paralyzed = millis(); // update starting time of paralyzing
+    vol_B = digitalRead(pin_B); // restore voltage on pin_B
+  }
 }
