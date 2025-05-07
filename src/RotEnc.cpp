@@ -58,7 +58,7 @@ void RotEnc::attachExtInterrupt(void(* func)(void)) {
   is_ext_interrupt_attached = true;
 }
 
-void RotEnc::detachExiInterrupt() {
+void RotEnc::detachExtInterrupt() {
   if (digitalPinToInterrupt(pin_A) < 0) return; // ignore if pin_A is not for interrupts
   if (is_ext_interrupt_attached) { // already attached
     detachInterrupt(digitalPinToInterrupt(pin_A)); // detach

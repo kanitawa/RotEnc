@@ -143,7 +143,7 @@ void func(uint8_t dir) {
 
 ## 外部割り込み割当て関数
 ### ```void attachExtInterrupt(void(* func)(void))```
-### ```void detachExiInterrupt(void)```
+### ```void detachExtInterrupt(void)```
 
 ```poll()``` を定期的に呼び出す ```loop()``` 内での処理が重い場合などには、ロータリーエンコーダの回転を取りこぼすことが起こります。そのような場合にはロータリーエンコーダのA相信号の変化を外部割り込みとすることが有効です。
 
@@ -157,4 +157,4 @@ myRE.attachExtInterrupt([]{myRE.detect();});
 
 のように記述することで、A相信号の変化を外部割り込みとして回転を検出することができるようになります。これにより回転の取りこぼしが改善します。A相が外部割り込み可能なピンに接続されていない場合には、このメソッドは無視されます。
 
-```detachExiInterrupt()``` を呼ぶと割当てが解除されます。
+```detachExtInterrupt()``` を呼ぶと割当てが解除されます。

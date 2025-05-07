@@ -54,7 +54,7 @@ class RotEnc {
     void attachCallback_RotatedInCW(void(* func)(void));
 
     void attachExtInterrupt(void(* func)(void));
-    void detachExiInterrupt(void);
+    void detachExtInterrupt(void);
     
     void setTimeParalyze(uint32_t);
 

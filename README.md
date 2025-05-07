@@ -131,7 +131,7 @@ Sets the time constant for debouncing, called as "time of paralyze ( T<sub>Paral
 
 ## Attach external interrupt functions
 ### ```void attachExtInterrupt(void(* func)(void))```
-### ```void detachExiInterrupt(void)```
+### ```void detachExtInterrupt(void)```
 
 When ``loop()`` that periodically calls ``poll()`` is heavy, some rotation events may be missed. In such cases, it is effective to apply an **external interrupt** at the ```FALLING``` of the A-phase signal of the rotary encoder.
 
@@ -147,4 +147,4 @@ call ```attachExtInterrupt``` in ```setup()``` as described above, the rotation 
 
 Calling this function is ignored when pin A is not connected to the **external interruptable pin**.
 
-Calling ```detachExiInterrupt()```, this attachment will be cancelled.
+Calling ```detachExtInterrupt()```, this attachment will be cancelled.
