@@ -53,7 +53,7 @@ void RotEnc::attachCallback_RotatedInCW(void(* func)(void)) {
 // attach & detach external interrupt for A-phase
 void RotEnc::attachExtInterrupt(void(* func)(void)) {
   if (digitalPinToInterrupt(pin_A) < 0) return; // ignore if pin_A is not for interrupts
-  detachExiInterrupt();
+  detachExtInterrupt();
   attachInterrupt(digitalPinToInterrupt(pin_A), func, FALLING);
   is_ext_interrupt_attached = true;
 }
